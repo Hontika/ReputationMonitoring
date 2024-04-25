@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import axios from '../lib/axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast'
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -9,6 +10,8 @@ type AuthProviderProps = {
 type User = {
   name?: string;
   email?: string;
+  twitter?: string;
+  reddit?: string;
   created_at?: string;
   id?: string;
   updated_at?: string;
@@ -17,6 +20,8 @@ type User = {
 
 type Errors = {
   name?: string[];
+  twitter?: string[];
+  reddit?: string[];
   email?: string[];
   password?: string[];
 };
@@ -37,6 +42,11 @@ type NewPasswordParams = {
   password_confirmation: string;
 };
 
+type UpdateProfileParams = {
+  name?: string;
+  email?: string;
+};
+
 export interface AuthContextValues {
   csrf: () => void;
   errors: Errors;
@@ -51,6 +61,7 @@ export interface AuthContextValues {
   sendPasswordResetLink: (data: { email: string }) => void;
   newPassword: (data: NewPasswordParams) => void;
   sendEmailVerificationLink: () => void;
+  updateProfile: (data: UpdateProfileParams) => void;
 }
 
 export const AuthContext = createContext<AuthContextValues>(
@@ -71,7 +82,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [sessionVerified, setSessionVerified] = useState(
     initialSessionVerified
   );
-
   const csrf = () => axios.get('/sanctum/csrf-cookie');
 
   const getUser = async () => {
@@ -196,6 +206,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  const updateProfile = async (data: UpdateProfileParams) => {
+    setErrors({});
+    setLoading(true);
+    try {
+      await csrf();
+      const response = await axios.post('/api/user/profile', data);
+      setUser(response.data);
+      toast.success('Profile updated!');
+    } catch (e) {
+      if (typeof e === 'object' && e !== null && 'response' in e) {
+        console.warn((e as { response: { data: unknown } }).response.data);
+        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
+        toast.error('Error while updating profile!');
+      } else {
+        console.warn(e);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = async () => {
     try {
       setSessionVerified(false);
@@ -233,6 +264,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         login,
         register,
         logout,
+        updateProfile,
         loading,
         status,
         sessionVerified,
