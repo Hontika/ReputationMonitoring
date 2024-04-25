@@ -12,6 +12,7 @@ type User = {
   email?: string;
   twitter?: string;
   reddit?: string;
+  img?: string;
   created_at?: string;
   id?: string;
   updated_at?: string;

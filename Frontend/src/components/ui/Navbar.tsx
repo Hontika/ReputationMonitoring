@@ -1,6 +1,6 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useAuthContext from '../../hooks/useAuthContext';
 
@@ -10,12 +10,19 @@ const navigation = [
   { name: 'Profile', path: '/profile', current: false},
 ];
 
+interface imgIcon {
+  img: string;
+}
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Navbar() {
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuthContext();
+  const [imgIcon, setimgIcon] = useState<imgIcon>({
+    img: user?.img || 'https://pbs.twimg.com/profile_images/1764081844419473409/d3-p1vQ-_400x400.jpg',
+});
 
   return (
     <Disclosure as="nav" className="bg-slate-50 shadow-md">
@@ -82,7 +89,7 @@ export default function Navbar() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src=""
+                        src={imgIcon.img}
                         alt=""
                       />
                     </Menu.Button>
