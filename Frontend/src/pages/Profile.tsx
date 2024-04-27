@@ -1,21 +1,28 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Spinner from '../components/ui/Spinner';
 import useAuthContext from '../hooks/useAuthContext';
+import { useTheme } from '../theme/useTheme';
+import { getFromLS } from '../utils/storage';
+import _ from 'lodash';
 
 interface ProfileForm {
     name: string;
     twitter: string;
     reddit: string;
-  }
+}
 
-export default function Profile() {
+export default function Profile({ switchTheme }) {
     const { user, errors, updateProfile, loading } = useAuthContext();
     const [formData, setFormData] = useState<ProfileForm>({
         name: user?.name || '',
         twitter: user?.twitter || '',
         reddit: user?.reddit || '',
     });
+    const themesFromStore = getFromLS('all-themes');
+    const [data, setData] = useState(themesFromStore.data);
+    const [theme, setTheme] = useState();
+    const { setMode } = useTheme();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -25,20 +32,32 @@ export default function Profile() {
         e.preventDefault();
         await updateProfile(formData);
     };
+
+    const changeTheme = (param: string) => {
+        console.log(data[param]);
+        setMode(data[param]);
+        setTheme(data[param]);
+        switchTheme();
+    }
+
+    useEffect(() => {
+        console.log('theme changed');
+    }, [theme]);
+
     return (
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 divide-y">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
                     Update Profile
                 </h2>
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
+                <form className="space-y-6 my-5" method="POST" onSubmit={handleSubmit}>
                     <div>
                         <label
                             htmlFor="name"
-                            className="block text-sm font-medium leading-6 text-gray-900"
+                            className="block text-sm font-medium leading-6"
                         >
                             Name
                         </label>
@@ -47,7 +66,7 @@ export default function Profile() {
                                 id="name"
                                 name="name"
                                 type="text"
-                                className={`block w-full border-0 rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
+                                className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
                                     }`}
                                 value={formData.name}
                                 onChange={handleChange}
@@ -61,7 +80,7 @@ export default function Profile() {
                     <div>
                         <label
                             htmlFor="twitter"
-                            className="block text-sm font-medium leading-6 text-gray-900"
+                            className="block text-sm font-medium leading-6"
                         >
                             Twitter handle of company
                         </label>
@@ -70,7 +89,7 @@ export default function Profile() {
                                 id="twitter"
                                 name="twitter"
                                 type="text"
-                                className={`block w-full border-0 rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
+                                className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
                                     }`}
                                 value={formData.twitter}
                                 onChange={handleChange}
@@ -84,7 +103,7 @@ export default function Profile() {
                     <div>
                         <label
                             htmlFor="reddit"
-                            className="block text-sm font-medium leading-6 text-gray-900"
+                            className="block text-sm font-medium leading-6"
                         >
                             Reddit
                         </label>
@@ -93,7 +112,7 @@ export default function Profile() {
                                 id="reddit"
                                 name="reddit"
                                 type="text"
-                                className={`block w-full border-0 rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
+                                className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
                                     }`}
                                 value={formData.reddit}
                                 onChange={handleChange}
@@ -107,16 +126,29 @@ export default function Profile() {
                     <div>
                         <button
                             type="submit"
-                            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 items-center gap-x-2 disabled:cursor-not-allowed"
+                            className="flex w-full justify-center px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm items-center gap-x-2 disabled:cursor-not-allowed"
                             disabled={loading}>
-                                Submit
-                            </button>
+                            Submit
+                        </button>
                     </div>
                 </form>
+            </div>
+            <div className="flex w-full justify-center px-3 py-1.5leading-6 shadow-sm items-center gap-x-2 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="grid grid-cols-3 gap-4 pt-5">
+                    {Object.keys(data).map(theme => (
+                        <button
+                            key={theme}
+                            className="flex w-28 h-28 justify-center px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm items-center gap-x-2 disabled:cursor-not-allowed"
+                            onClick={() => changeTheme(theme)}
+                        >
+                            {data[theme].name}
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
     );
 }
 
 
-  
+

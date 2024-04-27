@@ -1,0 +1,793 @@
+{
+  "data": {
+    "light": {
+      "id": "T_001",
+      "name": "Light",
+      "colors": {
+        "navbar": "#e8e8e8",
+        "bell": {
+          "borderradius": "9999px",
+          "background": "#1f2937",
+          "text": "#9ca3af",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "",
+          "hover": {
+            "background": "#f3f4f6"
+          },
+          "text": "#374151"
+        },
+        "navbarlinkactive": {
+          "background": "#111827",
+          "text": "#FFFFFF",
+          "borderradius": "0.375rem"
+        },
+        "navbarlinknotactive": {
+          "background": "#00000000",
+          "text": "#4b5563",
+          "borderradius": "0.375rem;",
+          "hover": {
+            "background": "#374151",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "0.375rem",
+          "text": "#9ca3af",
+          "hover": {
+            "background": "#374151",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#FFFFFF",
+        "text": "#000000",
+        "emailconfirm": {
+          "background": "#4f47e0",
+          "text": "#FFFFFF",
+          "borderradius": "0.75rem",
+          "buttonhover": {
+            "background": "#FFFFFF",
+            "text": "#4f47e0",
+            "ringwidth": "1px",
+            "ringcolor": "#eef2ff"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#111827",
+          "borderradius": "9999px",
+          "hover": {
+            "background": "#1F2937"
+          }
+        },
+        "link": {
+          "text": "#4f47e0",
+          "opacity": 1,
+          "hover": {
+            "text": "#6366f1"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#d1d5db",
+          "placeholder": "#9ca3af",
+          "text": "#111827",
+          "borderradius": "0.375rem",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#4f47e0"
+          }
+        }
+      },
+      "font": "Montserrat"
+    },
+    "dark": {
+      "id": "T_002",
+      "name": "Dark",
+      "colors": {
+        "navbar": "#2d3748",
+        "bell": {
+          "borderradius": "9999px",
+          "background": "#4a5568",
+          "text": "#cbd5e0",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#111827",
+          "hover": {
+            "background": "#2d3748"
+          },
+          "text": "#cbd5e0"
+        },
+        "navbarlinkactive": {
+          "background": "#4a5568",
+          "text": "#FFFFFF",
+          "borderradius": "0.375rem"
+        },
+        "navbarlinknotactive": {
+          "background": "#00000000",
+          "text": "#cbd5e0",
+          "borderradius": "0.375rem",
+          "hover": {
+            "background": "#374151",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "0.375rem",
+          "text": "#cbd5e0",
+          "hover": {
+            "background": "#617087",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#1a202c",
+        "text": "#cbd5e0",
+        "emailconfirm": {
+          "background": "#667eea",
+          "text": "#FFFFFF",
+          "borderradius": "0.75rem",
+          "buttonhover": {
+            "background": "#FFFFFF",
+            "text": "#667eea",
+            "ringwidth": "1px",
+            "ringcolor": "#cbd5e0"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#4a5568",
+          "borderradius": "9999px",
+          "hover": {
+            "background": "#2d3748"
+          }
+        },
+        "link": {
+          "text": "#667eea",
+          "opacity": 1,
+          "hover": {
+            "text": "#81e6d9"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#cbd5e0",
+          "placeholder": "#cbd5e0",
+          "text": "#111827",
+          "borderradius": "0.375rem",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#667eea"
+          }
+        },
+        "paragraphs": "#cbd5e0"
+      },
+      "font": "Roboto"
+    },
+    "szia_lajos": {
+      "id": "T_003",
+      "name": "Szia Lajos!",
+      "colors": {
+        "navbar": "#3D3522",
+        "bell": {
+          "borderradius": "8px",
+          "background": "#6B8E23",
+          "text": "#FFFFFF",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#8F9779",
+          "hover": {
+            "background": "#A7B396"
+          },
+          "text": "#FFFFFF"
+        },
+        "navbarlinkactive": {
+          "background": "#6B8E23",
+          "text": "#FFFFFF",
+          "borderradius": "10px"
+        },
+        "navbarlinknotactive": {
+          "background": "#3D3522",
+          "text": "#8F9779",
+          "borderradius": "8px",
+          "hover": {
+            "background": "#565036",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "12px",
+          "text": "#8F9779",
+          "hover": {
+            "background": "#6B8E23",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#565036",
+        "text": "#FFFFFF",
+        "emailconfirm": {
+          "background": "#6B8E23",
+          "text": "#FFFFFF",
+          "borderradius": "0.75rem",
+          "buttonhover": {
+            "background": "#3D3522",
+            "text": "#6B8E23",
+            "ringwidth": "1px",
+            "ringcolor": "#3D3522"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#8F9779",
+          "borderradius": "10px",
+          "hover": {
+            "background": "#A7B396"
+          }
+        },
+        "link": {
+          "text": "#6B8E23",
+          "opacity": 1,
+          "hover": {
+            "text": "#8F9779"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#8F9779",
+          "placeholder": "#8F9779",
+          "text": "#FFFFFF",
+          "borderradius": "8px",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#6B8E23"
+          }
+        }
+      },
+      "font": "Verdana",
+      "spacing": {
+        "padding": "10px",
+        "margin": "5px",
+        "lineHeight": "1.5"
+      }
+    },
+    "asphalt_gray": {
+      "id": "T_004",
+      "name": "Grandmasta Pete's Asphalt Gray",
+      "colors": {
+        "navbar": "#333333",
+        "bell": {
+          "borderradius": "15px",
+          "background": "#555555",
+          "text": "#cccccc",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#666666",
+          "hover": {
+            "background": "#888888"
+          },
+          "text": "#cccccc"
+        },
+        "navbarlinkactive": {
+          "background": "#444444",
+          "text": "#FFFFFF",
+          "borderradius": "10px"
+        },
+        "navbarlinknotactive": {
+          "background": "#00000000",
+          "text": "#999999",
+          "borderradius": "8px",
+          "hover": {
+            "background": "#666666",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "25px",
+          "text": "#cccccc",
+          "hover": {
+            "background": "#555555",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#444444",
+        "text": "#cccccc",
+        "emailconfirm": {
+          "background": "#777777",
+          "text": "#FFFFFF",
+          "buttonhover": {
+            "background": "#333333",
+            "text": "#cccccc",
+            "ringwidth": "1px",
+            "ringcolor": "#cccccc"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#555555",
+          "borderradius": "12px",
+          "hover": {
+            "background": "#666666"
+          }
+        },
+        "link": {
+          "text": "#777777",
+          "opacity": 1,
+          "hover": {
+            "text": "#999999"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#cccccc",
+          "placeholder": "#cccccc",
+          "text": "#555555",
+          "borderradius": "10px",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#777777"
+          }
+        }
+      },
+      "font": "Racing Sans One",
+      "spacing": {
+        "padding": "8px",
+        "margin": "6px",
+        "lineHeight": "1.6"
+      }
+    },
+    "sad_samurai_sunset": {
+      "id": "T_005",
+      "name": "Samurai Looking Vehemently At The Sunset",
+      "colors": {
+        "navbar": "#1a1a1a",
+        "bell": {
+          "borderradius": "8px",
+          "background": "#FF6600",
+          "text": "#000000",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#FF8533",
+          "hover": {
+            "background": "#FF9933"
+          },
+          "text": "#1a1a1a"
+        },
+        "navbarlinkactive": {
+          "background": "#FF6600",
+          "text": "#1a1a1a",
+          "borderradius": "10px"
+        },
+        "navbarlinknotactive": {
+          "background": "#1a1a1a",
+          "text": "#FF8533",
+          "borderradius": "8px",
+          "hover": {
+            "background": "#333333",
+            "text": "#FF9933"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "12px",
+          "text": "#FF8533",
+          "hover": {
+            "background": "#FF9933",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#1a1a1a",
+        "text": "#FF8533",
+        "emailconfirm": {
+          "background": "#FF9933",
+          "text": "#1a1a1a",
+          "borderradius": "0.75rem",
+          "buttonhover": {
+            "background": "#1a1a1a",
+            "text": "#FF9933",
+            "ringwidth": "1px",
+            "ringcolor": "#FF6600"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#FF6600",
+          "borderradius": "10px",
+          "hover": {
+            "background": "#FF8533"
+          }
+        },
+        "link": {
+          "text": "#FF8533",
+          "opacity": 1,
+          "hover": {
+            "text": "#FF9933"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#FF8533",
+          "placeholder": "#FF8533",
+          "text": "#1a1a1a",
+          "borderradius": "8px",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#FF6600"
+          }
+        }
+      },
+      "font": "Sawarabi Mincho",
+      "spacing": {
+        "padding": "10px",
+        "margin": "5px",
+        "lineHeight": "1.5"
+      }
+    },
+    "liverwurst": {
+      "id": "T_006",
+      "name": "Liverwurst",
+      "colors": {
+        "navbar": "#592720",
+        "bell": {
+          "borderradius": "8px",
+          "background": "#8B4513",
+          "text": "#FFFFFF",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#A0522D",
+          "hover": {
+            "background": "#CD853F"
+          },
+          "text": "#FFFFFF"
+        },
+        "navbarlinkactive": {
+          "background": "#8B4513",
+          "text": "#FFFFFF",
+          "borderradius": "10px"
+        },
+        "navbarlinknotactive": {
+          "background": "#592720",
+          "text": "#CD853F",
+          "borderradius": "8px",
+          "hover": {
+            "background": "#80461B",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "12px",
+          "text": "#CD853F",
+          "hover": {
+            "background": "#A0522D",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#80461B",
+        "text": "#FFFFFF",
+        "emailconfirm": {
+          "background": "#A52A2A",
+          "text": "#FFFFFF",
+          "buttonhover": {
+            "background": "#592720",
+            "text": "#A52A2A",
+            "ringwidth": "1px",
+            "ringcolor": "#8B4513"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#8B4513",
+          "borderradius": "10px",
+          "hover": {
+            "background": "#A0522D"
+          }
+        },
+        "link": {
+          "text": "#CD853F",
+          "opacity": 1,
+          "hover": {
+            "text": "#A52A2A"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#CD853F",
+          "placeholder": "#CD853F",
+          "text": "#0D1B2A",
+          "borderradius": "8px",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#8B4513"
+          }
+        }
+      },
+      "font": "Merienda",
+      "spacing": {
+        "padding": "10px",
+        "margin": "5px",
+        "lineHeight": "1.5"
+      }
+    },
+    "merida_dual_thrust": {
+      "id": "T_007",
+      "name": "Is that a Merida Dual Thrust???",
+      "colors": {
+        "navbar": "#0D1B2A",
+        "bell": {
+          "borderradius": "8px",
+          "background": "#FF5A5F",
+          "text": "#FFFFFF",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#1167B1",
+          "hover": {
+            "background": "#0E5496"
+          },
+          "text": "#FFFFFF"
+        },
+        "navbarlinkactive": {
+          "background": "#FF5A5F",
+          "text": "#FFFFFF",
+          "borderradius": "10px"
+        },
+        "navbarlinknotactive": {
+          "background": "#0D1B2A",
+          "text": "#1167B1",
+          "borderradius": "8px",
+          "hover": {
+            "background": "#2B3856",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "12px",
+          "text": "#1167B1",
+          "hover": {
+            "background": "#0E5496",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#2B3856",
+        "text": "#FFFFFF",
+        "emailconfirm": {
+          "background": "#FF5A5F",
+          "text": "#FFFFFF",
+          "borderradius": "0.75rem",
+          "buttonhover": {
+            "background": "#0D1B2A",
+            "text": "#FF5A5F",
+            "ringwidth": "1px",
+            "ringcolor": "#0D1B2A"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#1167B1",
+          "borderradius": "10px",
+          "hover": {
+            "background": "#0E5496"
+          }
+        },
+        "link": {
+          "text": "#FF5A5F",
+          "opacity": 1,
+          "hover": {
+            "text": "#FF5A5F"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#1167B1",
+          "placeholder": "#1167B1",
+          "text": "#c40000",
+          "borderradius": "8px",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#FF5A5F"
+          }
+        }
+      },
+      "font": "News Cycle",
+      "spacing": {
+        "padding": "10px",
+        "margin": "5px",
+        "lineHeight": "1.5"
+      }
+    },
+    "asexual_alimony": {
+      "id": "T_08",
+      "name": "Asexual Alimony",
+      "colors": {
+        "navbar": "#000000",
+        "bell": {
+          "borderradius": "8px",
+          "background": "#800080",
+          "text": "#FFFFFF",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#A9A9A9",
+          "hover": {
+            "background": "#C0C0C0"
+          },
+          "text": "#000000"
+        },
+        "navbarlinkactive": {
+          "background": "#000000",
+          "text": "#FFFFFF",
+          "borderradius": "10px"
+        },
+        "navbarlinknotactive": {
+          "background": "#000000",
+          "text": "#800080",
+          "borderradius": "8px",
+          "hover": {
+            "background": "#800080",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "12px",
+          "text": "#800080",
+          "hover": {
+            "background": "#A9A9A9",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#FFFFFF",
+        "text": "#000000",
+        "emailconfirm": {
+          "background": "#800080",
+          "text": "#FFFFFF",
+          "borderradius": "0.75rem",
+          "buttonhover": {
+            "background": "#FFFFFF",
+            "text": "#800080",
+            "ringwidth": "1px",
+            "ringcolor": "#000000"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#000000",
+          "borderradius": "10px",
+          "hover": {
+            "background": "#800080"
+          }
+        },
+        "link": {
+          "text": "#800080",
+          "opacity": 1,
+          "hover": {
+            "text": "#000000"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#800080",
+          "placeholder": "#800080",
+          "text": "#000000",
+          "borderradius": "8px",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#000000"
+          }
+        }
+      },
+      "font": "Bruno Ace",
+      "spacing": {
+        "padding": "10px",
+        "margin": "5px",
+        "lineHeight": "1.5"
+      }
+    },
+    "rubiks_cube": {
+      "id": "T_09",
+      "name": "Rubik's Cube",
+      "colors": {
+        "navbar": "#FFFFFF",
+        "bell": {
+          "borderradius": "0",
+          "background": "#FF0000",
+          "text": "#FFFFFF",
+          "hover": {
+            "text": "#FFFFFF"
+          }
+        },
+        "profiledropdown": {
+          "background": "#FFA500",
+          "hover": {
+            "background": "#FFD700"
+          },
+          "text": "#FFFFFF"
+        },
+        "navbarlinkactive": {
+          "background": "#008000",
+          "text": "#FFFFFF",
+          "borderradius": "0"
+        },
+        "navbarlinknotactive": {
+          "background": "#0000FF",
+          "text": "#FFFF00",
+          "borderradius": "0",
+          "hover": {
+            "background": "#FF0000",
+            "text": "#FFFFFF"
+          }
+        },
+        "mobilemenubutton": {
+          "borderradius": "0",
+          "text": "#0000FF",
+          "hover": {
+            "background": "#FFA500",
+            "text": "#FFFFFF"
+          }
+        },
+        "body": "#FFFFFF",
+        "text": "#000000",
+        "emailconfirm": {
+          "background": "#FFA500",
+          "text": "#FFFFFF",
+          "buttonhover": {
+            "background": "#FF0000",
+            "text": "#FFA500",
+            "ringwidth": "1px",
+            "ringcolor": "#FF0000"
+          }
+        },
+        "button": {
+          "text": "#FFFFFF",
+          "background": "#008000",
+          "borderradius": "0",
+          "hover": {
+            "background": "#FFD700"
+          }
+        },
+        "link": {
+          "text": "#FFFF00",
+          "opacity": 1,
+          "hover": {
+            "text": "#FF0000"
+          }
+        },
+        "input": {
+          "ringwidth": "1px",
+          "ringcolor": "#FFFF00",
+          "placeholder": "#FFFF00",
+          "text": "#000000",
+          "borderradius": "0",
+          "focus": {
+            "ringwidth": "2px",
+            "ringcolor": "#FFA500"
+          }
+        }
+      },
+      "font": "Rubik",
+      "spacing": {
+        "padding": "10px",
+        "margin": "5px",
+        "lineHeight": "1.5"
+      }
+    }
+  }
+}
