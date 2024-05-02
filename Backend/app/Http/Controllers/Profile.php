@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -42,13 +43,27 @@ class Profile extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'twitter' => ['required', 'string', 'max:255'],
-            'reddit' => ['required', 'string', 'max:255'],
-            'companyName' => ['required', 'string', 'max:255']
-          ]);
+            'twitter' => ['nullable', 'string', 'max:255'],
+            'reddit' => ['nullable', 'string', 'max:255'],
+            'companyName' => ['nullable', 'string', 'max:255']
+        ]);
+
+        if ($validated['companyName']) {
+            $company = Company::where('name', $validated['companyName'])->first();
+
+            if (!$company) {
+                $company = new Company();
+                $company->name = $validated['companyName'];
+                $company->twitter = $validated['twitter'] ?? null;
+                $company->reddit = $validated['reddit'] ?? null;
+                $company->save();
+            }
+            $user->companyName = $validated['companyName'];
+        }
 
         $user->fill($validated)->save();
-        return response($user,200);
+
+        return response([$user, $company], 200);
     }
 
     /**
