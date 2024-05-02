@@ -44,6 +44,7 @@ class Profile extends Controller
             'name' => ['required', 'string', 'max:255'],
             'twitter' => ['required', 'string', 'max:255'],
             'reddit' => ['required', 'string', 'max:255'],
+            'companyName' => ['required', 'string', 'max:255']
           ]);
 
         $user->fill($validated)->save();

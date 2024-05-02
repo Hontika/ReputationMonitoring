@@ -12,6 +12,7 @@ type User = {
   email?: string;
   twitter?: string;
   reddit?: string;
+  companyName?: string;
   img?: string;
   created_at?: string;
   id?: string;
@@ -23,6 +24,7 @@ type Errors = {
   name?: string[];
   twitter?: string[];
   reddit?: string[];
+  companyName?: string[];
   email?: string[];
   password?: string[];
 };

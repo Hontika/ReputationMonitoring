@@ -10,6 +10,7 @@ interface ProfileForm {
     name: string;
     twitter: string;
     reddit: string;
+    companyName: string;
 }
 
 export default function Profile({ switchTheme }) {
@@ -18,6 +19,7 @@ export default function Profile({ switchTheme }) {
         name: user?.name || '',
         twitter: user?.twitter || '',
         reddit: user?.reddit || '',
+        companyName: user?.companyName || ''
     });
     const themesFromStore = getFromLS('all-themes');
     const [data, setData] = useState(themesFromStore.data);
@@ -69,6 +71,29 @@ export default function Profile({ switchTheme }) {
                                 className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
                                     }`}
                                 value={formData.name}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        {errors.name && (
+                            <span className="text-red-400 text-sm">{errors.name[0]}</span>
+                        )}
+                    </div>
+
+                    <div>
+                        <label
+                            htmlFor="twitter"
+                            className="block text-sm font-medium leading-6"
+                        >
+                            Name of Company
+                        </label>
+                        <div className="mt-2">
+                            <input
+                                id="companyName"
+                                name="companyName"
+                                type="text"
+                                className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
+                                    }`}
+                                value={formData.companyName}
                                 onChange={handleChange}
                             />
                         </div>
