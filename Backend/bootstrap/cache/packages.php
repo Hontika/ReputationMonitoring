@@ -48,6 +48,13 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+  'roach-php/laravel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'RoachPHP\\Laravel\\RoachServiceProvider',
+    ),
+  ),
   'spatie/laravel-ignition' => 
   array (
     'providers' => 

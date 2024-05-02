@@ -28,8 +28,9 @@ export default function Profile({ switchTheme }) {
 
     useEffect(() => {
         if (status) {
-            toast.success(status);
+            console.log(status);
         }
+        console.log(user)
     }, [status]);
 
 

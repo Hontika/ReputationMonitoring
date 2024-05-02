@@ -4,7 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\Company;
 use App\Models\CompanyData;
+use Exception;
 use Illuminate\Console\Command;
+use Symfony\Component\DomCrawler\Crawler;
+use GuzzleHttp\Client;
 
 class UpdateCompanyData extends Command
 {
@@ -22,7 +25,6 @@ class UpdateCompanyData extends Command
      */
     protected $description = 'Update company data';
 
-
     /**
      * Execute the console command.
      */
@@ -30,7 +32,18 @@ class UpdateCompanyData extends Command
     {
         $companies = Company::all();
         foreach ($companies as $company) {
-            $twitterFollowers = rand(100, 10000);
+            $url = 'https://socialblade.com/twitter/user/'.$company->twitter.'/realtime';
+            $client = new Client();
+            $headers = [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0'
+            ];
+            $response = $client->request('GET', $url, [
+                'headers' => $headers
+            ]);
+            $html = $response->getBody()->getContents();
+            $crawler = new Crawler($html);
+            $twitterFollowers = (int)preg_replace('/[.,]/', '', $crawler->filter('h5')->text());
+
             $redditMembers = rand(50, 5000);
 
             CompanyData::create([
@@ -41,5 +54,31 @@ class UpdateCompanyData extends Command
         }
 
         $this->info('Company data updated successfully!');
+    }
+
+    private function fetchTwitterFollowers()
+    {
+        $url = 'https://socialblade.com/twitter/user/asolboop/realtime';
+
+        $client = new Client();
+
+        $headers = [
+            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0'
+        ];
+
+        $response = $client->request('GET', $url, [
+            'headers' => $headers
+        ]);
+
+        $html = $response->getBody()->getContents();
+
+        $crawler = new Crawler($html);
+
+        $followerCount = $crawler->filter('h5')->text();
+
+        // You may need to extract the follower count from the text here.
+        // For example, if $followerCount is "Followers 123,456", you would extract "123,456".
+
+        return $followerCount;
     }
 }
