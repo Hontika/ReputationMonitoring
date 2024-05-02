@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company_data extends Model
+class CompanyData extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
+        'company_id',
         'twitter_followers',
         'reddit_members'
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

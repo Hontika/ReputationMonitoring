@@ -14,12 +14,8 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-lg italic">
-        Hello, <strong className="not-italic">{user?.name}</strong>!
-      </h1>
-
       {!user?.email_verified_at && (
-        <div className="my-10 p-4 emailconfirm flex items-center gap-x-10">
+        <div className="p-4 emailconfirm flex items-center gap-x-10">
           <p className="text-sm font-bold emailconfirm">Please verify your email address.</p>
           <button
             className="emailconfirmbtn py-1.5 px-4 text-lg flex items-center gap-x-2 disabled:cursor-not-allowed"
@@ -31,6 +27,9 @@ export default function Home() {
           </button>
         </div>
       )}
+      <h1 className="text-lg italic py-6">
+        Hello, <strong className="not-italic">{user?.name}</strong>!
+      </h1>
     </>
   );
 }

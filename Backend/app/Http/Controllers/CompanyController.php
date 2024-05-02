@@ -12,6 +12,6 @@ class CompanyController extends Controller
      */
     public function updateCompanyData()
     {
-
+        //might be obsolete, but I won't delete yet
     }
 }

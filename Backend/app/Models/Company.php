@@ -14,4 +14,9 @@ class Company extends Model
         'twitter',
         'reddit',
     ];
+
+    public function companyData()
+    {
+        return $this->hasMany(CompanyData::class);
+    }
 }
