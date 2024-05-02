@@ -32,8 +32,9 @@ class UpdateCompanyData extends Command
     {
         $companies = Company::all();
         foreach ($companies as $company) {
-            $url = 'https://socialblade.com/twitter/user/'.$company->twitter.'/realtime';
             $client = new Client();
+
+            $url = 'https://socialblade.com/twitter/user/' . $company->twitter . '/realtime';
             $headers = [
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0'
             ];
@@ -44,41 +45,21 @@ class UpdateCompanyData extends Command
             $crawler = new Crawler($html);
             $twitterFollowers = (int)preg_replace('/[.,]/', '', $crawler->filter('h5')->text());
 
-            $redditMembers = rand(50, 5000);
+            $url = "https://reddstats.com/subreddit/" . $company->reddit;
+            $response = $client->request('GET', $url, [
+                'headers' => $headers
+            ]);
+            $html = $response->getBody()->getContents();
+            $crawler = new Crawler($html);
+            $subredditMembers = (int)$crawler->filter('body > div > div.flex.flex-col.items-center.justify-center.mt-5 > div > div > div.grid.grid-cols-12.gap-4 > div:nth-child(1) > div > div.text-lg.lg\:text-2xl.text-gray-500.font-semibold.leading-8.mt-5')->text();
 
             CompanyData::create([
                 'company_id' => $company->id,
                 'twitter_followers' => $twitterFollowers,
-                'reddit_members' => $redditMembers
+                'reddit_members' => $subredditMembers
             ]);
         }
 
         $this->info('Company data updated successfully!');
-    }
-
-    private function fetchTwitterFollowers()
-    {
-        $url = 'https://socialblade.com/twitter/user/asolboop/realtime';
-
-        $client = new Client();
-
-        $headers = [
-            'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0'
-        ];
-
-        $response = $client->request('GET', $url, [
-            'headers' => $headers
-        ]);
-
-        $html = $response->getBody()->getContents();
-
-        $crawler = new Crawler($html);
-
-        $followerCount = $crawler->filter('h5')->text();
-
-        // You may need to extract the follower count from the text here.
-        // For example, if $followerCount is "Followers 123,456", you would extract "123,456".
-
-        return $followerCount;
     }
 }

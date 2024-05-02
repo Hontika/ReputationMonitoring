@@ -114,14 +114,14 @@ export default function Profile({ switchTheme }) {
                                     id="companyName"
                                     name="companyName"
                                     type="text"
-                                    className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
+                                    className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.companyName && 'ring-red-500'
                                         }`}
                                     value={formData.companyName}
                                     onChange={handleChange}
                                 />
                             </div>
-                            {errors.name && (
-                                <span className="text-red-400 text-sm">{errors.name[0]}</span>
+                            {errors.companyName && (
+                                <span className="text-red-400 text-sm">{errors.companyName[0]}</span>
                             )}
                         </div>
 
@@ -137,14 +137,14 @@ export default function Profile({ switchTheme }) {
                                     id="twitter"
                                     name="twitter"
                                     type="text"
-                                    className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
+                                    className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.twitter && 'ring-red-500'
                                         }`}
                                     value={formData.twitter}
                                     onChange={handleChange}
                                 />
                             </div>
-                            {errors.name && (
-                                <span className="text-red-400 text-sm">{errors.name[0]}</span>
+                            {errors.twitter && (
+                                <span className="text-red-400 text-sm">{errors.twitter[0]}</span>
                             )}
                         </div>
 
@@ -160,14 +160,14 @@ export default function Profile({ switchTheme }) {
                                     id="reddit"
                                     name="reddit"
                                     type="text"
-                                    className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.name && 'ring-red-500'
+                                    className={`block w-full border-0 py-1.5 px-2 shadow-sm sm:text-sm sm:leading-6 ${errors.reddit && 'ring-red-500'
                                         }`}
                                     value={formData.reddit}
                                     onChange={handleChange}
                                 />
                             </div>
-                            {errors.name && (
-                                <span className="text-red-400 text-sm">{errors.name[0]}</span>
+                            {errors.reddit && (
+                                <span className="text-red-400 text-sm">{errors.reddit[0]}</span>
                             )}
                         </div>
 
