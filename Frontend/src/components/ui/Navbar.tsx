@@ -1,13 +1,13 @@
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import useAuthContext from '../../hooks/useAuthContext';
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Fragment, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const navigation = [
-  { name: 'Home', path: '/', current: true },
-  { name: 'QuickStart', path: '/quickstart', current: false },
-  { name: 'Profile', path: '/profile', current: false},
+  { name: "Home", path: "/", current: true },
+  { name: "Achievements", path: "/achievements", current: false },
+  { name: "Profile", path: "/profile", current: false },
 ];
 
 interface imgIcon {
@@ -15,14 +15,16 @@ interface imgIcon {
 }
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
   const { logout, user } = useAuthContext();
   const [imgIcon, setimgIcon] = useState<imgIcon>({
-    img: user?.img || 'https://pbs.twimg.com/profile_images/1764081844419473409/d3-p1vQ-_400x400.jpg',
-});
+    img:
+      user?.img ||
+      "https://pbs.twimg.com/profile_images/1764081844419473409/d3-p1vQ-_400x400.jpg",
+  });
 
   return (
     <Disclosure as="nav" className="shadow-md navbar">
@@ -44,8 +46,7 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <NavLink
-                  to={'/'}>
+                  <NavLink to={"/"}>
                     <img
                       className="h-8 w-auto"
                       src="/logo.svg"
@@ -61,10 +62,8 @@ export default function Navbar() {
                         to={item.path}
                         className={({ isActive }) =>
                           classNames(
-                            isActive
-                              ? 'activelink'
-                              : 'notactivelink',
-                            'px-3 py-2 text-sm font-medium'
+                            isActive ? "activelink" : "notactivelink",
+                            "px-3 py-2 text-sm font-medium"
                           )
                         }
                       >
@@ -107,13 +106,13 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute profiledropdown right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <Menu.Item>
+                      <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={'profile'}
+                            to={"profile"}
                             className={classNames(
-                              active ? 'profiledropdownactive' : '',
-                              'block px-4 py-2 text-sm profiledropdown'
+                              active ? "profiledropdownactive" : "",
+                              "block px-4 py-2 text-sm profiledropdown"
                             )}
                           >
                             Profile
@@ -123,11 +122,11 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={''}
+                            to={""}
                             onClick={logout}
                             className={classNames(
-                              active ? 'profiledropdownactive' : '',
-                              'block px-4 py-2 text-sm profiledropdown'
+                              active ? "profiledropdownactive" : "",
+                              "block px-4 py-2 text-sm profiledropdown"
                             )}
                           >
                             Sign out
@@ -149,10 +148,8 @@ export default function Navbar() {
                   to={item.path}
                   className={({ isActive }) =>
                     classNames(
-                      isActive
-                        ? 'activelink'
-                        : 'notactivelink',
-                      'block rounded-md px-3 py-2 text-base font-medium'
+                      isActive ? "activelink" : "notactivelink",
+                      "block rounded-md px-3 py-2 text-base font-medium"
                     )
                   }
                 >
