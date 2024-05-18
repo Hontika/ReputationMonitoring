@@ -3,6 +3,7 @@
 use App\Http\Controllers\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,10 @@ Route::middleware(['auth:sanctum'])->group(function (){
     });
     Route::post('/user/profile', [Profile::class, 'update']);
 });
+
+Route::get('/fetch-data', [DataController::class, 'fetchData']);
+
+Route::get('/testData', function () {
+    return response()->json(['message' => 'This is a test response']);
+});
+
