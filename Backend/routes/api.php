@@ -23,7 +23,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('/user/profile', [Profile::class, 'update']);
 });
 
-Route::get('/fetch-data', [DataController::class, 'fetchData']);
+Route::get('/fetch-reviews', [DataController::class, 'fetchData']);
 
 Route::get('/testData', function () {
     return response()->json(['message' => 'This is a test response']);
