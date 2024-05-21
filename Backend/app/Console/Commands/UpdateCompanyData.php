@@ -34,16 +34,16 @@ class UpdateCompanyData extends Command
         foreach ($companies as $company) {
             $client = new Client();
 
-            $url = 'https://socialblade.com/twitter/user/' . $company->twitter . '/realtime';
+            // $url = 'https://socialblade.com/twitter/user/' . $company->twitter . '/realtime';
             $headers = [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0'
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
             ];
-            $response = $client->request('GET', $url, [
-                'headers' => $headers
-            ]);
-            $html = $response->getBody()->getContents();
-            $crawler = new Crawler($html);
-            $twitterFollowers = (int)preg_replace('/[.,]/', '', $crawler->filter('h5')->text());
+            // $response = $client->request('GET', $url, [
+            //     'headers' => $headers
+            // ]);
+            // $html = $response->getBody()->getContents();
+            // $crawler = new Crawler($html);
+            $twitterFollowers = 0; //(int)preg_replace('/[.,]/', '', $crawler->filter('h5')->text());
 
             $url = "https://reddstats.com/subreddit/" . $company->reddit;
             $response = $client->request('GET', $url, [
