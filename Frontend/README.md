@@ -6,7 +6,7 @@ This directory contains the frontend code that connects to the Laravel Breeze AP
 
 To get started, Install the dependencies using Yarn:
 
-`yarn`
+`yarn install`
 
 # Usage
 
