@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import axios from '../lib/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import toast from 'react-hot-toast'
 
 type AuthProviderProps = {
@@ -105,6 +105,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       await csrf();
       await axios.post('/login', data);
       await getUser();
+      navigate('/');
     } catch (e) {
       if (typeof e === 'object' && e !== null && 'response' in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
@@ -126,6 +127,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       await csrf();
       await axios.post('/register', data);
       await getUser();
+      navigate('/');
     } catch (e) {
       if (typeof e === 'object' && e !== null && 'response' in e) {
         console.warn((e as { response: { data: unknown } }).response.data);

@@ -14,6 +14,7 @@ import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
 import Achievements from "./pages/Achievements";
 import Profile from "./pages/Profile";
+import RedditSearch from "./pages/RedditSearch";
 import { getFromLS } from "./utils/storage";
 
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -68,6 +69,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reddit-search" element={<RedditSearch/>}></Route>
               <Route
                 path="/password-reset/:token"
                 element={<ResetPassword />}
