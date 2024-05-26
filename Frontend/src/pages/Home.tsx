@@ -102,7 +102,10 @@ export default function Home() {
       }
 
       setGraphData(fetchedData);
-      setLabel(inputValue);
+      axios.get("http://localhost:8000/api/increment-graph-interactions").then((res) =>{
+        console.log("Graph interactions increased by one!");
+        setLabel(inputValue);
+      })
     } catch (error) {
       toast.error("Error fetching reviews data");
     }

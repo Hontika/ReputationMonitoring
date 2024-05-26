@@ -81,7 +81,12 @@ export default function RedditSearch() {
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      if(searchTerm != "" && searchTerm != null) fetchData();
+      if (searchTerm != "" && searchTerm != null) {
+        fetchData();
+        axios.get("http://localhost:8000/api/increment-searches").then((res) => {
+          console.log("User searches increased by one!");
+        })
+      }
     }, 1000);
 
     return () => {
@@ -111,7 +116,7 @@ export default function RedditSearch() {
 
     checkInfluencers();
   }, [posts]);
-  
+
 
   const getPostUrl = (post: RedditPost) => {
     return `https://www.reddit.com${post.permalink}`;
@@ -124,6 +129,12 @@ export default function RedditSearch() {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+
+  const handleClick = () => {
+    axios.get("http://localhost:8000/api/increment-influencer-interactions").then((res) => {
+      console.log("Influencer interactions increased by one!");
+    })
+  }
 
   return (
     <div className="p-4">
@@ -160,6 +171,7 @@ export default function RedditSearch() {
             target="_blank"
             rel="noopener noreferrer"
             className={`flex flex-col md:flex-row items-start border p-2 mb-4 shadow-md ${influencerAuthors.has(post.author) ? 'emailconfirm ' : ' notactivelink'}`}
+            onClick={influencerAuthors.has(post.author) ? handleClick :  undefined}
           >
             <div className="md:mr-4 md:w-1/4">
               {post.subreddit && (

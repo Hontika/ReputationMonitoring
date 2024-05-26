@@ -4,12 +4,9 @@ use App\Http\Controllers\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataController;
-<<<<<<< Updated upstream
 use App\Http\Controllers\CompanyController;
-=======
 use App\Http\Controllers\UserInteractionController;
 
->>>>>>> Stashed changes
 
 /*
 |--------------------------------------------------------------------------

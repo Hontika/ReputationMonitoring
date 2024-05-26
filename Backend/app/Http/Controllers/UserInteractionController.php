@@ -14,7 +14,7 @@ class UserInteractionController extends Controller
      */
     public function incrementSearches()
     {
-        $user = Auth::user();
+        $user = Auth::user('sanctum');
         $user->increment('searches');
         return response()->json(['message' => 'Searches count incremented successfully.', 'searches' => $user->searches]);
     }
@@ -26,7 +26,7 @@ class UserInteractionController extends Controller
      */
     public function incrementGraphInteractions()
     {
-        $user = Auth::user();
+        $user = Auth::user('sanctum');
         $user->increment('graph_interactions');
         return response()->json(['message' => 'Graph interactions count incremented successfully.', 'graph_interactions' => $user->graph_interactions]);
     }
@@ -38,7 +38,7 @@ class UserInteractionController extends Controller
      */
     public function incrementInfluencerInteractions()
     {
-        $user = Auth::user();
+        $user = Auth::user('sanctum');
         $user->increment('influencer_interactions');
         return response()->json(['message' => 'Influencer interactions count incremented successfully.', 'influencer_interactions' => $user->influencer_interactions]);
     }
