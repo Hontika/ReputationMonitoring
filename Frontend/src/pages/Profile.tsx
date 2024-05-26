@@ -30,7 +30,6 @@ export default function Profile({ switchTheme }) {
         if (status) {
             console.log(status);
         }
-        console.log(user)
     }, [status]);
 
 

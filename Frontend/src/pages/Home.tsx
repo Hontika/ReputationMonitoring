@@ -129,7 +129,7 @@ export default function Home() {
 
   return (
     <>
-      {!user?.email_verified_at && (
+      { user && !user?.email_verified_at && (
         <div className="p-4 emailconfirm flex items-center gap-x-10">
           <p className="text-sm font-bold emailconfirm">
             Please verify your email address.
@@ -144,9 +144,9 @@ export default function Home() {
           </button>
         </div>
       )}
-      <h1 className="text-lg italic py-6">
+      {user && (<h1 className="text-lg italic py-6">
         Hello, <strong className="not-italic">{user?.name}</strong>!
-      </h1>
+      </h1>)}
       <div className="flex flex-col gap-4 items-center justify-center">
         <form className="w-full max-w-sm" onSubmit={handleSubmit}>
           <div className="mb-4">
