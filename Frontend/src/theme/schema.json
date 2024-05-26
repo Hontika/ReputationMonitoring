@@ -243,7 +243,7 @@
           "ringwidth": "1px",
           "ringcolor": "#8F9779",
           "placeholder": "#8F9779",
-          "text": "#FFFFFF",
+          "text": "#000000",
           "borderradius": "8px",
           "focus": {
             "ringwidth": "2px",
