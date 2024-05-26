@@ -30,7 +30,7 @@ class UpdateCompanyData extends Command
      */
     public function handle()
     {
-        $companies = Company::all();
+        $companies = Company::whereNotNull('reddit')->get();;
         foreach ($companies as $company) {
             $client = new Client();
 

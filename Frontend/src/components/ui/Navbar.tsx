@@ -74,7 +74,7 @@ export default function Navbar() {
                             className={({ isActive }) =>
                               classNames(
                                 isActive ? "activelink" : "notactivelink",
-                                "px-3 py-2 text-sm font-medium"
+                                "ml-1 px-3 py-2 text-sm font-medium"
                               )
                             }
                           >
@@ -100,6 +100,25 @@ export default function Navbar() {
                         ))}
                       </div>
                     )}
+                    ) :
+                      (
+                        <div className="space-y-1 px-2 pb-3 pt-2">
+                          {navigationNoAuth.map((item) => (
+                            <NavLink
+                              key={item.name}
+                              to={item.path}
+                              className={({ isActive }) =>
+                                classNames(
+                                  isActive ? "activelink" : "notactivelink",
+                                  "ml-1 px-3 py-2 text-sm font-medium"
+                                )
+                              }
+                            >
+                              {item.name}
+                            </NavLink>
+                          ))}
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>

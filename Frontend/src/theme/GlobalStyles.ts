@@ -123,7 +123,7 @@ export const GlobalStyles = createGlobalStyle`
     outline-color: ${({ theme }) => theme.colors.input.focus.ringcolor} !important;
   }
 
-  h2,h1,label,p {
+  h2,h1,label,p,.asdlol123 {
     color: ${({ theme }) => theme.colors.paragraphs} !important;
   }
 
