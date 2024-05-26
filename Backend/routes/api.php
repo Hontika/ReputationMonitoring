@@ -4,6 +4,7 @@ use App\Http\Controllers\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,4 @@ Route::get('/testData', function () {
     return response()->json(['message' => 'This is a test response']);
 });
 
+Route::get('/companies', [CompanyController::class, 'index']);
