@@ -58,7 +58,6 @@ export default function RedditSearch() {
     const fetchData = async () => {
       try {
         const searchResponse = await axios.get(`http://www.reddit.com/r/${searchTerm}/new.json?sort=new`);
-        // const searchResponse = test;
         const postList = searchResponse.data.data.children.map((child: any) => ({
           title: child.data.title,
           upvote_ratio: child.data.upvote_ratio,
@@ -72,26 +71,7 @@ export default function RedditSearch() {
           icon_img: '',
         }));
 
-        const checkInfluencers = async () => {
-          const newInfluencerAuthors = new Set<string>();
-          // const newInfluencerAuthors = new Set([
-          //   "AutoModerator",
-          // ]);
-          for (const post of posts) {
-            try {
-              const userResponse = await axios.get(`https://www.reddit.com/user/${post.author}/about.json`);
-              if (userResponse.data.data.total_karma > 50000) {
-                newInfluencerAuthors.add(post.author);
-              }
-              post.icon_img = userResponse.data.data.icon_img
-            } catch (error) {
-              console.error('Error fetching user data:', error);
-            }
-          }
-          setInfluencerAuthors(newInfluencerAuthors);
-        };
         setPosts(postList);
-        checkInfluencers();
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -112,8 +92,25 @@ export default function RedditSearch() {
   }, [searchTerm]);
 
   useEffect(() => {
-    console.log("updatetest");
-  }, [influencerAuthors]);
+    const checkInfluencers = async () => {
+      const newInfluencerAuthors = new Set<string>();
+      for (const post of posts) {
+        try {
+          const userResponse = await axios.get(`https://www.reddit.com/user/${post.author}/about.json`);
+          console.log(post.author)
+          if (userResponse.data.data.total_karma > 50000) {
+            newInfluencerAuthors.add(post.author);
+          }
+          post.icon_img = userResponse.data.data.icon_img
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+      setInfluencerAuthors(newInfluencerAuthors);
+    };
+
+    checkInfluencers();
+  }, [posts]);
   
 
   const getPostUrl = (post: RedditPost) => {
