@@ -101,7 +101,7 @@ export default function RedditSearch() {
     }
 
     debounceTimeoutRef.current = setTimeout(() => {
-      fetchData();
+      if(searchTerm != "" && searchTerm != null) fetchData();
     }, 1000);
 
     return () => {
