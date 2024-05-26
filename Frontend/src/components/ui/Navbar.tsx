@@ -75,7 +75,7 @@ export default function Navbar() {
                             className={({ isActive }) =>
                               classNames(
                                 isActive ? "activelink" : "notactivelink",
-                                "px-3 py-2 text-sm font-medium"
+                                "ml-1 px-3 py-2 text-sm font-medium"
                               )
                             }
                           >
@@ -93,7 +93,7 @@ export default function Navbar() {
                               className={({ isActive }) =>
                                 classNames(
                                   isActive ? "activelink" : "notactivelink",
-                                  "px-3 py-2 text-sm font-medium"
+                                  "ml-1 px-3 py-2 text-sm font-medium"
                                 )
                               }
                             >
