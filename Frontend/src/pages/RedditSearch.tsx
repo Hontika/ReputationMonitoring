@@ -4187,7 +4187,7 @@ export default function RedditSearch() {
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [searchTerm]);
+  }, [searchTerm, influencerAuthors]);
 
   const getPostUrl = (post: RedditPost) => {
     return `https://www.reddit.com${post.permalink}`;
