@@ -1,59 +1,28 @@
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import "chart.js/auto";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-interface ReviewChartProps {
-  reviews: { date: string; rating: number }[];
+interface GraphProps {
+  data: { date: string; rating: number }[];
+  label: string;
 }
 
-export default function Graph({ reviews }: ReviewChartProps) {
-  const labels = reviews.map((review) => review.date);
-  const data = reviews.map((review) => review.rating);
-
+export default function Graph({ data, label }: GraphProps) {
   const chartData = {
-    labels: labels,
+    labels: data.map((d) => d.date),
     datasets: [
       {
-        label: "Review Ratings Over Time",
-        data: data,
+        label: `${label} Graph`,
+        data: data.map((d) => d.rating),
+        fill: false,
         borderColor: "rgba(75,192,192,1)",
-        backgroundColor: "rgba(75,192,192,0.2)",
-        fill: true,
+        tension: 0.1,
       },
     ],
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Review Ratings Over Time",
-      },
-    },
-  };
-
-  return <Line data={chartData} options={options} />;
+  return (
+    <div>
+      <Line data={chartData} />
+    </div>
+  );
 }

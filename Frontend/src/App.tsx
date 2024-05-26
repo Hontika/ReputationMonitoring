@@ -52,7 +52,6 @@ export default function App() {
                 </ErrorBoundary>
               }
             >
-              <Route path="/" element={<Home />} />
               <Route path="/achievements" element={<Achievements />} />
               <Route
                 path="/profile"
@@ -66,10 +65,11 @@ export default function App() {
                 </ErrorBoundary>
               }
             >
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reddit-search" element={<RedditSearch/>}></Route>
+              <Route path="/reddit-search" element={<RedditSearch />}></Route>
               <Route
                 path="/password-reset/:token"
                 element={<ResetPassword />}

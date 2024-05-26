@@ -14,4 +14,10 @@ class CompanyController extends Controller
     {
         //might be obsolete, but I won't delete yet
     }
+
+    public function index()
+    {
+        $companies = Company::all();
+        return $companies;
+    }
 }

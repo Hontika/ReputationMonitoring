@@ -1,5 +1,5 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import useAuthContext from "../../hooks/useAuthContext";
@@ -13,7 +13,7 @@ const navigationAuth = [
 const auth = [
   { name: "Register", path: "/register", current: false },
   { name: "Login", path: "/login", current: false },
-]
+];
 
 const navigationNoAuth = [
   { name: "Reddit Search", path: "/reddit-search", current: false },
@@ -26,7 +26,6 @@ interface imgIcon {
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
-
 
 export default function Navbar() {
   const { logout, user } = useAuthContext();
@@ -83,25 +82,24 @@ export default function Navbar() {
                           </NavLink>
                         ))}
                       </div>
-                    ) :
-                      (
-                        <div className="space-y-1 px-2 pb-3 pt-2">
-                          {navigationNoAuth.map((item) => (
-                            <NavLink
-                              key={item.name}
-                              to={item.path}
-                              className={({ isActive }) =>
-                                classNames(
-                                  isActive ? "activelink" : "notactivelink",
-                                  "px-3 py-2 text-sm font-medium"
-                                )
-                              }
-                            >
-                              {item.name}
-                            </NavLink>
-                          ))}
-                        </div>
-                      )}
+                    ) : (
+                      <div className="space-y-1 px-2 pb-3 pt-2">
+                        {navigationNoAuth.map((item) => (
+                          <NavLink
+                            key={item.name}
+                            to={item.path}
+                            className={({ isActive }) =>
+                              classNames(
+                                isActive ? "activelink" : "notactivelink",
+                                "px-3 py-2 text-sm font-medium"
+                              )
+                            }
+                          >
+                            {item.name}
+                          </NavLink>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -116,73 +114,77 @@ export default function Navbar() {
                 </button> */}
 
                 {/* Profile dropdown */}
-                {user ? (<Menu as="div" className="relative ml-3">
-                  <div>
-                    <Menu.Button className="relative flex rounded-full text-sm focus:outline-none">
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src={imgIcon.img}
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute profiledropdown right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to={"profile"}
-                            className={classNames(
-                              active ? "profiledropdownactive" : "",
-                              "block px-4 py-2 text-sm profiledropdown"
-                            )}
-                          >
-                            Profile
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to={""}
-                            onClick={logout}
-                            className={classNames(
-                              active ? "profiledropdownactive" : "",
-                              "block px-4 py-2 text-sm profiledropdown"
-                            )}
-                          >
-                            Sign out
-                          </Link>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>) : (<div className="space-y-1 px-2 pb-3 pt-2">
-                  {auth.map((item) => (
-                    <NavLink
-                      key={item.name}
-                      to={item.path}
-                      className={({ isActive }) =>
-                        classNames(
-                          isActive ? "activelink" : "notactivelink",
-                          "px-3 py-2 text-sm font-medium"
-                        )
-                      }
+                {user ? (
+                  <Menu as="div" className="relative ml-3">
+                    <div>
+                      <Menu.Button className="relative flex rounded-full text-sm focus:outline-none">
+                        <span className="absolute -inset-1.5" />
+                        <span className="sr-only">Open user menu</span>
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src={imgIcon.img}
+                          alt=""
+                        />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
                     >
-                      {item.name}
-                    </NavLink>
-                  ))}
-                </div>)}
+                      <Menu.Items className="absolute profiledropdown right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to={"profile"}
+                              className={classNames(
+                                active ? "profiledropdownactive" : "",
+                                "block px-4 py-2 text-sm profiledropdown"
+                              )}
+                            >
+                              Profile
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to={""}
+                              onClick={logout}
+                              className={classNames(
+                                active ? "profiledropdownactive" : "",
+                                "block px-4 py-2 text-sm profiledropdown"
+                              )}
+                            >
+                              Sign out
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                ) : (
+                  <div className="space-y-1 px-2 pb-3 pt-2">
+                    {auth.map((item) => (
+                      <NavLink
+                        key={item.name}
+                        to={item.path}
+                        className={({ isActive }) =>
+                          classNames(
+                            isActive ? "activelink" : "notactivelink",
+                            "px-3 py-2 text-sm font-medium"
+                          )
+                        }
+                      >
+                        {item.name}
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -205,25 +207,24 @@ export default function Navbar() {
                   </NavLink>
                 ))}
               </div>
-            ) :
-              (
-                <div className="space-y-1 px-2 pb-3 pt-2">
-                  {navigationNoAuth.map((item) => (
-                    <NavLink
-                      key={item.name}
-                      to={item.path}
-                      className={({ isActive }) =>
-                        classNames(
-                          isActive ? "activelink" : "notactivelink",
-                          "block rounded-md px-3 py-2 text-base font-medium"
-                        )
-                      }
-                    >
-                      {item.name}
-                    </NavLink>
-                  ))}
-                </div>
-              )}
+            ) : (
+              <div className="space-y-1 px-2 pb-3 pt-2">
+                {navigationNoAuth.map((item) => (
+                  <NavLink
+                    key={item.name}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      classNames(
+                        isActive ? "activelink" : "notactivelink",
+                        "block rounded-md px-3 py-2 text-base font-medium"
+                      )
+                    }
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              </div>
+            )}
           </Disclosure.Panel>
         </>
       )}
