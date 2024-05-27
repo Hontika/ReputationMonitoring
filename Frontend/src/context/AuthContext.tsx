@@ -1,7 +1,7 @@
-import { ReactNode, createContext, useEffect, useState } from 'react';
-import axios from '../lib/axios';
-import { useNavigate, Navigate } from 'react-router-dom';
-import toast from 'react-hot-toast'
+import { ReactNode, createContext, useEffect, useState } from "react";
+import axios from "../lib/axios";
+import { useNavigate, Navigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -50,6 +50,15 @@ type UpdateProfileParams = {
   email?: string;
 };
 
+type AddAchievementParams = {
+  id?: number;
+  user_id?: number;
+  type?: string;
+  goal?: number;
+  progress?: number;
+  new_members: boolean;
+};
+
 export interface AuthContextValues {
   csrf: () => void;
   errors: Errors;
@@ -60,6 +69,7 @@ export interface AuthContextValues {
   incrementGraph: () => void;
   incrementSearches: () => void;
   incrementInfluencer: () => void;
+  addAchievement: (data: AddAchievementParams) => void;
   loading: boolean;
   sessionVerified: boolean;
   status: string | null;
@@ -74,7 +84,7 @@ export const AuthContext = createContext<AuthContextValues>(
   {} as AuthContextValues
 );
 
-const SESSION_NAME = 'session-verified';
+const SESSION_NAME = "session-verified";
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState(null);
@@ -88,16 +98,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [sessionVerified, setSessionVerified] = useState(
     initialSessionVerified
   );
-  const csrf = () => axios.get('/sanctum/csrf-cookie');
+  const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   const getUser = async () => {
     try {
-      const { data } = await axios.get('/api/user');
+      const { data } = await axios.get("/api/user");
       setUser(data);
       setSessionVerified(true);
-      window.localStorage.setItem(SESSION_NAME, 'true');
+      window.localStorage.setItem(SESSION_NAME, "true");
     } catch (e) {
-      console.warn('Error ', e);
+      console.warn("Error ", e);
     }
   };
 
@@ -106,11 +116,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      await axios.post('/login', data);
+      await axios.post("/login", data);
       await getUser();
-      navigate('/');
+      navigate("/");
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -128,11 +138,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      await axios.post('/register', data);
+      await axios.post("/register", data);
       await getUser();
-      navigate('/');
+      navigate("/");
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -151,10 +161,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       await csrf();
-      const response = await axios.post('/forgot-password', data);
+      const response = await axios.post("/forgot-password", data);
       setStatus(response.data?.status);
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -173,13 +183,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       await csrf();
-      const response = await axios.post('/reset-password', data);
+      const response = await axios.post("/reset-password", data);
       setStatus(response.data?.status);
       setTimeout(() => {
-        navigate('/login');
+        navigate("/login");
       }, 2000);
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -198,10 +208,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       await csrf();
-      const response = await axios.post('/email/verification-notification');
+      const response = await axios.post("/email/verification-notification");
       setStatus(response.data?.status);
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -219,14 +229,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      const response = await axios.post('/api/user/profile', data);
+      const response = await axios.post("/api/user/profile", data);
       setUser(response.data);
-      toast.success('Profile updated!');
+      toast.success("Profile updated!");
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
-        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
-        toast.error('Error while updating profile!');
+        setErrors(
+          (e as { response: { data: { errors: [] } } }).response.data.errors
+        );
+        toast.error("Error while updating profile!");
       } else {
         console.warn(e);
       }
@@ -240,11 +252,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      const response = await axios.post('/api/increment-graph-interactions');
+      const response = await axios.post("/api/increment-graph-interactions");
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
-        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
+        setErrors(
+          (e as { response: { data: { errors: [] } } }).response.data.errors
+        );
         toast.error("Error while increasing KPI!");
       } else {
         console.warn(e);
@@ -259,11 +273,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      const response = await axios.post('/api/increment-searches');
+      const response = await axios.post("/api/increment-searches");
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
-        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
+        setErrors(
+          (e as { response: { data: { errors: [] } } }).response.data.errors
+        );
         toast.error("Error while increasing KPI!");
       } else {
         console.warn(e);
@@ -278,12 +294,37 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      const response = await axios.post('/api/increment-influencer-interactions');
+      const response = await axios.post(
+        "/api/increment-influencer-interactions"
+      );
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
-        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
+        setErrors(
+          (e as { response: { data: { errors: [] } } }).response.data.errors
+        );
         toast.error("Error while increasing KPI!");
+      } else {
+        console.warn(e);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addAchievement = async (data: AddAchievementParams) => {
+    setErrors({});
+    setLoading(true);
+    try {
+      await csrf();
+      const response = await axios.post("/api/achievements", data);
+    } catch (e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
+        console.warn((e as { response: { data: unknown } }).response.data);
+        setErrors(
+          (e as { response: { data: { errors: [] } } }).response.data.errors
+        );
+        toast.error("Error while adding achievement!");
       } else {
         console.warn(e);
       }
@@ -295,7 +336,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = async () => {
     try {
       setSessionVerified(false);
-      await axios.post('/logout');
+      await axios.post("/logout");
       setUser(null);
       window.localStorage.removeItem(SESSION_NAME);
     } catch (e) {
@@ -333,6 +374,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         incrementGraph,
         incrementSearches,
         incrementInfluencer,
+        addAchievement,
         loading,
         status,
         sessionVerified,

@@ -32,12 +32,13 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::get('/achievements', [AchievementController::class, 'index']);
     Route::post('/achievements', [AchievementController::class, 'store']);
     Route::get('/achievements/{id}', [AchievementController::class, 'show']);
-    Route::get('/achievements/user/{userId}', [AchievementController::class, 'getAchievementsByUser']);
     Route::put('/achievements/{id}', [AchievementController::class, 'update']);
     Route::delete('/achievements/{id}', [AchievementController::class, 'destroy']);
 });
 
 Route::get('/fetch-reviews', [DataController::class, 'fetchData']);
+
+Route::get('/company_data/{reddit}', [DataController::class, 'getRedditData']);
 
 Route::get('/testData', function () {
     return response()->json(['message' => 'This is a test response']);

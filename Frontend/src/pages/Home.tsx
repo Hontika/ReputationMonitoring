@@ -5,20 +5,16 @@ import Spinner from "../components/ui/Spinner";
 import axios from "axios";
 import Graph from "../components/ui/Graph";
 
-const serpApiKey = import.meta.env.VITE_SERPAPI_KEY;
-
 export default function Home() {
-  const { user, sendEmailVerificationLink, status, loading, incrementGraph } = useAuthContext();
+  const { user, sendEmailVerificationLink, status, loading, incrementGraph } =
+    useAuthContext();
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
-  const [redditInput, setRedditInput] = useState<string>("");
   const [companyInput, setCompanyInput] = useState<string>("");
-  const [graphData, setGraphData] = useState<
-    { date: string; rating: number }[]
-  >([]);
+  const [redditInput, setRedditInput] = useState<string>("");
+  const [graphData, setGraphData] = useState<{ date: string; y: number }[]>([]);
   const [label, setLabel] = useState<string>("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
-  const [placeId, setPlaceId] = useState<string>("");
 
   const fetchCompanies = async () => {
     try {
@@ -33,34 +29,21 @@ export default function Home() {
     setGraphData([]);
     setLabel("");
     setSelectedOption(event.target.value);
+    setInputValue("");
+    setCompanyInput("");
+    setRedditInput("");
     if (event.target.value === "option2") {
       fetchCompanies();
+    } else {
+      setSuggestions([]);
     }
   };
 
-  const handleInputChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
-    if (value.length > 2 && selectedOption === "option1") {
-      try {
-        setCompanyInput(value);
-        const response = await axios.get(
-          `https://cors-anywhere.herokuapp.com/https://serpapi.com/search.json`,
-          {
-            params: {
-              engine: "google_maps",
-              type: "search",
-              q: value,
-              api_key: serpApiKey,
-            },
-          }
-        );
-        setSuggestions(response.data.place_results || []);
-      } catch (error) {
-        toast.error("Error fetching autocomplete suggestions");
-      }
+    if (selectedOption === "option1") {
+      setCompanyInput(value);
     } else if (selectedOption === "option2") {
       setRedditInput(value);
       const filteredSuggestions = suggestions.filter((company) =>
@@ -74,36 +57,20 @@ export default function Home() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (selectedOption === "option1" && !placeId) {
-      toast.error("Please select a company!");
+    if (!inputValue.trim()) {
+      toast.error("Input field cannot be empty");
       return;
     }
-
     try {
-      let fetchedData;
-      if (selectedOption === "option1") {
-        const response = await axios.get(`https://serpapi.com/search.json`, {
-          params: {
-            engine: "google_maps_reviews",
-            place_id: placeId,
-            api_key: serpApiKey,
-          },
-        });
-
-        fetchedData = response.data.reviews.map((review: any) => ({
-          date: review.date,
-          rating: review.rating,
-        }));
-      } else {
-        fetchedData = [
-          { date: "2024-01-01", rating: 4 },
-          { date: "2024-01-02", rating: 5 },
-          { date: "2024-01-03", rating: 3 },
-        ];
-      }
-
+      const response = await axios.get(
+        `http://localhost:8000/api/company_data/${inputValue}`
+      );
+      const fetchedData = response.data.map((item) => ({
+        date: item.created_at,
+        y: item.y,
+      }));
       setGraphData(fetchedData);
-      setLabel(inputValue);
+      setLabel(selectedOption === "option2" ? `r/${inputValue}` : inputValue);
       await incrementGraph();
     } catch (error) {
       toast.error("Error fetching reviews data");
@@ -191,42 +158,25 @@ export default function Home() {
                 value={companyInput}
                 onChange={handleInputChange}
               />
-              {Array.isArray(suggestions) && suggestions.length > 0 && (
-                <ul className="suggestions-list">
-                  {suggestions.map((suggestion) => (
-                    <li
-                      key={suggestion.place_id}
-                      onClick={() => {
-                        setInputValue(suggestion.title);
-                        setPlaceId(suggestion.place_id);
-                        setSuggestions([]);
-                        setLabel(suggestion.title); // Update label when selecting a company
-                      }}
-                    >
-                      {suggestion.title}
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
           )}
           {selectedOption === "option2" && (
             <div className="mb-4">
               <label
                 className="block text-sm font-bold mb-2"
-                htmlFor="textInput"
+                htmlFor="selectInput"
               >
                 {getLabel()}
               </label>
               {Array.isArray(suggestions) && suggestions.length > 0 && (
                 <select
                   id="selectInput"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-slate-800 leading-tight focus:outline-none focus:shadow-outline"
-                  value={inputValue}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-slate-800 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                  value={redditInput}
                   onChange={(e) => {
                     setInputValue(e.target.value);
                     setRedditInput(e.target.value);
-                    setLabel(e.target.value); // Update label when selecting a subreddit
+                    setLabel(`r/${e.target.value}`); // Update label when selecting a subreddit
                   }}
                 >
                   <option value="" disabled>
@@ -250,9 +200,7 @@ export default function Home() {
             </button>
           </div>
         </form>
-        {graphData.length > 0 && (
-          <Graph data={graphData} label={`r/${label}`} />
-        )}
+        {graphData.length > 0 && <Graph data={graphData} label={label} />}
       </div>
     </>
   );

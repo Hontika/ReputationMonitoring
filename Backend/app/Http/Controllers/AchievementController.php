@@ -38,12 +38,6 @@ class AchievementController extends Controller
         return Achievement::findOrFail($id);
     }
 
-    public function getAchievementsByUser($userId)
-    {
-        $achievements = Achievement::where('user_id', $userId)->get();
-        return $achievements;
-    }
-
     public function update(Request $request, $id)
     {
         $achievement = Achievement::findOrFail($id);

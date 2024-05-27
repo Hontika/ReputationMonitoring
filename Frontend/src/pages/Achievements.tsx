@@ -15,20 +15,21 @@ interface Achievement {
 }
 
 export default function Achievements() {
-  const { user, sendEmailVerificationLink, status, loading } = useAuthContext();
+  const { user, sendEmailVerificationLink, addAchievement, status, loading } =
+    useAuthContext();
   const [achievements, setAchievements] = useState<any[]>([]);
   const [newAchievement, setNewAchievement] = useState<Achievement>({
-    user_id: user?.id,
+    user_id: user.id,
     type: "",
   });
   const [goalError, setGoalError] = useState<string | null>(null);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/achievements/user/${user?.id}`)
+      .get("http://localhost:8000/api/achievements/")
       .then((response) => setAchievements(response.data))
       .catch((error) => console.error(error));
-  }, []);
+  });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -47,7 +48,7 @@ export default function Achievements() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
       newAchievement.type === "google_reviews" &&
@@ -56,13 +57,13 @@ export default function Achievements() {
       setGoalError("Goal must be between 1.0 and 5.0");
       return;
     }
-    axios
-      .post("http://localhost:8000/api/achievements", newAchievement)
-      .then((response) => {
-        setAchievements([...achievements, response.data]);
-        setNewAchievement({ user_id: user?.id, type: "" });
-      })
-      .catch((error) => console.error(error));
+    try {
+      await addAchievement(newAchievement);
+      setAchievements([...achievements, newAchievement]);
+      setNewAchievement({ user_id: user?.id, type: "" });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
