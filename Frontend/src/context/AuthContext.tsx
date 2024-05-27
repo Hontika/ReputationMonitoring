@@ -57,6 +57,9 @@ export interface AuthContextValues {
   login: (data: LoginParams) => void;
   register: (data: RegisterParams) => void;
   logout: () => void;
+  incrementGraph: () => void;
+  incrementSearches: () => void;
+  incrementInfluencer: () => void;
   loading: boolean;
   sessionVerified: boolean;
   status: string | null;
@@ -232,6 +235,63 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  const incrementGraph = async () => {
+    setErrors({});
+    setLoading(true);
+    try {
+      await csrf();
+      const response = await axios.post('/api/increment-graph-interactions');
+    } catch (e) {
+      if (typeof e === 'object' && e !== null && 'response' in e) {
+        console.warn((e as { response: { data: unknown } }).response.data);
+        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
+        toast.error("Error while increasing KPI!");
+      } else {
+        console.warn(e);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const incrementSearches = async () => {
+    setErrors({});
+    setLoading(true);
+    try {
+      await csrf();
+      const response = await axios.post('/api/increment-searches');
+    } catch (e) {
+      if (typeof e === 'object' && e !== null && 'response' in e) {
+        console.warn((e as { response: { data: unknown } }).response.data);
+        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
+        toast.error("Error while increasing KPI!");
+      } else {
+        console.warn(e);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const incrementInfluencer = async () => {
+    setErrors({});
+    setLoading(true);
+    try {
+      await csrf();
+      const response = await axios.post('/api/increment-influencer-interactions');
+    } catch (e) {
+      if (typeof e === 'object' && e !== null && 'response' in e) {
+        console.warn((e as { response: { data: unknown } }).response.data);
+        setErrors((e as { response: { data: { errors: [] } } }).response.data.errors);
+        toast.error("Error while increasing KPI!");
+      } else {
+        console.warn(e);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const logout = async () => {
     try {
       setSessionVerified(false);
@@ -270,6 +330,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         register,
         logout,
         updateProfile,
+        incrementGraph,
+        incrementSearches,
+        incrementInfluencer,
         loading,
         status,
         sessionVerified,

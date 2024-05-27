@@ -8,7 +8,7 @@ import Graph from "../components/ui/Graph";
 const serpApiKey = import.meta.env.VITE_SERPAPI_KEY;
 
 export default function Home() {
-  const { user, sendEmailVerificationLink, status, loading } = useAuthContext();
+  const { user, sendEmailVerificationLink, status, loading, incrementGraph } = useAuthContext();
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const [redditInput, setRedditInput] = useState<string>("");
@@ -102,12 +102,8 @@ export default function Home() {
       }
 
       setGraphData(fetchedData);
-      axios
-        .get("http://localhost:8000/api/increment-graph-interactions")
-        .then((res) => {
-          console.log("Graph interactions increased by one!");
-          setLabel(inputValue);
-        });
+      setLabel(inputValue);
+      await incrementGraph();
     } catch (error) {
       toast.error("Error fetching reviews data");
     }
