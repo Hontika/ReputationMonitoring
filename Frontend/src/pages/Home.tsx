@@ -30,6 +30,8 @@ export default function Home() {
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setGraphData([]);
+    setLabel("");
     setSelectedOption(event.target.value);
     if (event.target.value === "option2") {
       fetchCompanies();
@@ -39,16 +41,18 @@ export default function Home() {
   const handleInputChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (event.target.value.length > 2 && selectedOption === "option1") {
+    const value = event.target.value;
+    setInputValue(value);
+    if (value.length > 2 && selectedOption === "option1") {
       try {
-        setCompanyInput(event.target.value);
+        setCompanyInput(value);
         const response = await axios.get(
           `https://cors-anywhere.herokuapp.com/https://serpapi.com/search.json`,
           {
             params: {
               engine: "google_maps",
               type: "search",
-              q: event.target.value,
+              q: value,
               api_key: serpApiKey,
             },
           }
@@ -58,10 +62,9 @@ export default function Home() {
         toast.error("Error fetching autocomplete suggestions");
       }
     } else if (selectedOption === "option2") {
-      setRedditInput(event.target.value);
-      // Filter the suggestions based on input value
+      setRedditInput(value);
       const filteredSuggestions = suggestions.filter((company) =>
-        company.name.toLowerCase().includes(event.target.value.toLowerCase())
+        company.name.toLowerCase().includes(value.toLowerCase())
       );
       setSuggestions(filteredSuggestions);
     } else {
@@ -71,7 +74,6 @@ export default function Home() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Simulate fetching data based on the selected option and input value
     if (selectedOption === "option1" && !placeId) {
       toast.error("Please select a company!");
       return;
@@ -93,12 +95,11 @@ export default function Home() {
           rating: review.rating,
         }));
       } else {
-        // Simulate fetching data for other options
         fetchedData = [
           { date: "2024-01-01", rating: 4 },
           { date: "2024-01-02", rating: 5 },
           { date: "2024-01-03", rating: 3 },
-        ]; // Replace this with your actual data fetching logic
+        ];
       }
 
       setGraphData(fetchedData);
@@ -203,6 +204,7 @@ export default function Home() {
                         setInputValue(suggestion.title);
                         setPlaceId(suggestion.place_id);
                         setSuggestions([]);
+                        setLabel(suggestion.title); // Update label when selecting a company
                       }}
                     >
                       {suggestion.title}
@@ -228,6 +230,7 @@ export default function Home() {
                   onChange={(e) => {
                     setInputValue(e.target.value);
                     setRedditInput(e.target.value);
+                    setLabel(e.target.value); // Update label when selecting a subreddit
                   }}
                 >
                   <option value="" disabled>
