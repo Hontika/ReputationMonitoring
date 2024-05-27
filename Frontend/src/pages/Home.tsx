@@ -73,7 +73,7 @@ export default function Home() {
     event.preventDefault();
     // Simulate fetching data based on the selected option and input value
     if (selectedOption === "option1" && !placeId) {
-      toast.error("Please select a place from the suggestions");
+      toast.error("Please select a company!");
       return;
     }
 
@@ -102,10 +102,12 @@ export default function Home() {
       }
 
       setGraphData(fetchedData);
-      axios.get("http://localhost:8000/api/increment-graph-interactions").then((res) =>{
-        console.log("Graph interactions increased by one!");
-        setLabel(inputValue);
-      })
+      axios
+        .get("http://localhost:8000/api/increment-graph-interactions")
+        .then((res) => {
+          console.log("Graph interactions increased by one!");
+          setLabel(inputValue);
+        });
     } catch (error) {
       toast.error("Error fetching reviews data");
     }
@@ -132,7 +134,7 @@ export default function Home() {
 
   return (
     <>
-      { user && !user?.email_verified_at && (
+      {user && !user?.email_verified_at && (
         <div className="p-4 emailconfirm flex items-center gap-x-10">
           <p className="text-sm font-bold emailconfirm">
             Please verify your email address.
@@ -147,9 +149,11 @@ export default function Home() {
           </button>
         </div>
       )}
-      {user && (<h1 className="text-lg italic py-6">
-        Hello, <strong className="not-italic">{user?.name}</strong>!
-      </h1>)}
+      {user && (
+        <h1 className="text-lg italic py-6">
+          Hello, <strong className="not-italic">{user?.name}</strong>!
+        </h1>
+      )}
       <div className="flex flex-col gap-4 items-center justify-center">
         <form className="w-full max-w-sm" onSubmit={handleSubmit}>
           <div className="mb-4">

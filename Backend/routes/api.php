@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserInteractionController;
+use App\Http\Controllers\AchievementController;
 
 
 /*
@@ -27,6 +28,13 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('/increment-searches', [UserInteractionController::class, 'incrementSearches']);
     Route::post('/increment-graph-interactions', [UserInteractionController::class, 'incrementGraphInteractions']);
     Route::post('/increment-influencer-interactions', [UserInteractionController::class, 'incrementInfluencerInteractions']);
+
+    Route::get('/achievements', [AchievementController::class, 'index']);
+    Route::post('/achievements', [AchievementController::class, 'store']);
+    Route::get('/achievements/{id}', [AchievementController::class, 'show']);
+    Route::get('/achievements/user/{userId}', [AchievementController::class, 'getAchievementsByUser']);
+    Route::put('/achievements/{id}', [AchievementController::class, 'update']);
+    Route::delete('/achievements/{id}', [AchievementController::class, 'destroy']);
 });
 
 Route::get('/fetch-reviews', [DataController::class, 'fetchData']);
