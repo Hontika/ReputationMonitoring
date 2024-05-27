@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->integer('searches')->default(0);
+            $table->integer('graph_interactions')->default(0);
+            $table->integer('influencer_interactions')->default(0);
         });
     }
 

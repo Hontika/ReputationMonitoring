@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import useAuthContext from "../hooks/useAuthContext";
+import Spinner from '../components/ui/Spinner';
 
 function decodeHtml(html: string) {
   const txt = document.createElement("textarea");
@@ -52,7 +53,7 @@ export default function RedditSearch() {
   const [influencerAuthors, setInfluencerAuthors] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debounceTimeoutRef = useRef<number | null>(null);
-  const { user, sendEmailVerificationLink, status, loading } = useAuthContext();
+  const { user, sendEmailVerificationLink, status, loading, incrementSearches, incrementInfluencer } = useAuthContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,9 +84,7 @@ export default function RedditSearch() {
     debounceTimeoutRef.current = setTimeout(() => {
       if (searchTerm != "" && searchTerm != null) {
         fetchData();
-        axios.get("http://localhost:8000/api/increment-searches").then((res) => {
-          console.log("User searches increased by one!");
-        })
+        incrementSearches();
       }
     }, 1000);
 
@@ -102,7 +101,6 @@ export default function RedditSearch() {
       for (const post of posts) {
         try {
           const userResponse = await axios.get(`https://www.reddit.com/user/${post.author}/about.json`);
-          console.log(post.author)
           if (userResponse.data.data.total_karma > 50000) {
             newInfluencerAuthors.add(post.author);
           }
@@ -130,10 +128,8 @@ export default function RedditSearch() {
     setSearchTerm(event.target.value);
   };
 
-  const handleClick = () => {
-    axios.get("http://localhost:8000/api/increment-influencer-interactions").then((res) => {
-      console.log("Influencer interactions increased by one!");
-    })
+  const handleClick = async () => {
+    await incrementInfluencer();
   }
 
   return (
