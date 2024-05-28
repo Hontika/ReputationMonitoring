@@ -11,7 +11,7 @@ interface Achievement {
   type: string;
   goal?: number;
   progress?: number;
-  new_members?: boolean;
+  new_members: boolean;
 }
 
 export default function Achievements() {
@@ -37,13 +37,22 @@ export default function Achievements() {
     const { name, value } = e.target;
     setNewAchievement({ ...newAchievement, [name]: value });
 
-    // Validate goal for Google Reviews
-    if (name === "goal" && newAchievement.type === "google_reviews") {
-      const goalValue = parseFloat(value);
-      if (goalValue < 1.0 || goalValue > 5.0) {
-        setGoalError("Goal must be between 1.0 and 5.0");
-      } else {
-        setGoalError(null);
+    if (name === "goal") {
+      if (newAchievement.type === "google_reviews") {
+        const goalValue = parseFloat(value);
+        if (goalValue < 1.0 || goalValue > 5.0) {
+          setGoalError("Goal must be between 1.0 and 5.0");
+        } else {
+          setGoalError(null);
+        }
+      }
+      if (newAchievement.type === "subreddit_members") {
+        const goalValue = parseInt(value, 10);
+        if (goalValue < 1 || goalValue > 10000000) {
+          setGoalError("Goal must be between 1 and 10,000,000");
+        } else {
+          setGoalError(null);
+        }
       }
     }
   };
@@ -57,6 +66,15 @@ export default function Achievements() {
       setGoalError("Goal must be between 1.0 and 5.0");
       return;
     }
+
+    if (
+      newAchievement.type === "subreddit_members" &&
+      (newAchievement.goal! < 1 || newAchievement.goal! > 10000000)
+    ) {
+      setGoalError("Goal must be between 1 and 10,000,000");
+      return;
+    }
+
     try {
       await addAchievement(newAchievement);
       setAchievements([...achievements, newAchievement]);
@@ -71,8 +89,6 @@ export default function Achievements() {
       toast.success(status);
     }
   }, [status]);
-
-  console.log(achievements);
 
   return (
     <div>
@@ -106,8 +122,10 @@ export default function Achievements() {
                 className="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="">Select type</option>
-                <option value="google_reviews">Google Reviews</option>
                 <option value="subreddit_members">Subreddit Members</option>
+                <option value="google_reviews" disabled>
+                  Google Reviews
+                </option>
               </select>
             </div>
             {newAchievement.type === "google_reviews" && (
@@ -129,17 +147,25 @@ export default function Achievements() {
                   max="5.0"
                   step="0.1"
                 />
-                {goalError && (
-                  <p className="text-sm text-red-600">{goalError}</p>
-                )}
               </div>
             )}
             {newAchievement.type === "subreddit_members" && (
               <div>
                 <p className="text-sm italic text-gray-600">
-                  Track if your subreddit page has gained new members in the
-                  last 24 hours.
+                  Set a goal for your subreddit members' count.
                 </p>
+                <label className="block text-sm font-medium text-gray-700">
+                  Goal
+                </label>
+                <input
+                  type="number"
+                  name="goal"
+                  value={newAchievement.goal || ""}
+                  onChange={handleInputChange}
+                  className="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  min="1"
+                  max="10000000"
+                />
               </div>
             )}
             <div className="flex items-center justify-between">
@@ -160,7 +186,7 @@ export default function Achievements() {
                 key={index}
                 goal={achievement.goal}
                 progress={achievement.progress}
-                description={achievement.description}
+                description={`Achieve ${achievement.goal} members on the subreddit`}
               />
             ))
           ) : (

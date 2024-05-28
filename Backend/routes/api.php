@@ -29,14 +29,11 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::post('/increment-graph-interactions', [UserInteractionController::class, 'incrementGraphInteractions']);
     Route::post('/increment-influencer-interactions', [UserInteractionController::class, 'incrementInfluencerInteractions']);
 
-    Route::get('/achievements', [AchievementController::class, 'index']);
     Route::post('/achievements', [AchievementController::class, 'store']);
     Route::get('/achievements/{id}', [AchievementController::class, 'show']);
     Route::put('/achievements/{id}', [AchievementController::class, 'update']);
     Route::delete('/achievements/{id}', [AchievementController::class, 'destroy']);
 });
-
-Route::get('/fetch-reviews', [DataController::class, 'fetchData']);
 
 Route::get('/company_data/{reddit}', [DataController::class, 'getRedditData']);
 
@@ -45,3 +42,5 @@ Route::get('/testData', function () {
 });
 
 Route::get('/companies', [CompanyController::class, 'index']);
+
+Route::get('/achievements', [AchievementController::class, 'index']);

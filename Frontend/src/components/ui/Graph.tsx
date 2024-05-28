@@ -21,8 +21,8 @@ export default function Graph({ data, label }: GraphProps) {
   };
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow-lg max-w-xl mx-auto">
-      <div className="p-5">
+    <div className="bg-white p-5 rounded-lg shadow-lg max-w-xl mx-auto items-center justify-center">
+      <div className="p-2">
         <Line data={chartData} />
       </div>
     </div>
