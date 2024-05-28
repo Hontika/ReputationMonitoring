@@ -23,13 +23,14 @@ export default function Achievements() {
     type: "",
   });
   const [goalError, setGoalError] = useState<string | null>(null);
+  const [redditGoalError, setRedditGoalError] = useState<string | null>(null);
 
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/achievements/user/${user.id}`)
       .then((response) => setAchievements(response.data))
       .catch((error) => console.error(error));
-  });
+  }, [user.id]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -49,9 +50,9 @@ export default function Achievements() {
       if (newAchievement.type === "subreddit_members") {
         const goalValue = parseInt(value, 10);
         if (goalValue < 1 || goalValue > 10000000) {
-          setGoalError("Goal must be between 1 and 10,000,000");
+          setRedditGoalError("Goal must be between 1 and 10,000,000");
         } else {
-          setGoalError(null);
+          setRedditGoalError(null);
         }
       }
     }
@@ -65,9 +66,7 @@ export default function Achievements() {
     ) {
       setGoalError("Goal must be between 1.0 and 5.0");
       return;
-    }
-
-    if (
+    } else if (
       newAchievement.type === "subreddit_members" &&
       (newAchievement.goal! < 1 || newAchievement.goal! > 10000000)
     ) {

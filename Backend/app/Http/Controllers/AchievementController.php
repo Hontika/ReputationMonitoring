@@ -18,22 +18,32 @@ class AchievementController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $baseValidation = [
             'user_id' => ['required', 'exists:users,id'],
-            'type' => ['required', 'string', 'in:google_reviews,subreddit_members'],
-            'goal' => ['nullable', 'numeric', 'min:1.0', 'max:5.0'],
-        ]);
-
-        // Set initial progress to 0 or false based on type
-        if ($validated['type'] == 'google_reviews') {
-            $validated['progress'] = 0.0;
-        } else if ($validated['type'] == 'subreddit_members') {
-            $validated['new_members'] = false;
+            'type' => ['required', 'string', 'in:google_series,subreddit_members']
+        ];
+    
+        // Determine additional validations based on type
+        if ($request->input('type') === 'google_reviews') {
+            $goalValidation = ['goal' => ['nullable', 'numeric', 'min:1.0', 'max:5.0']];
+            $additionalData = ['progress' => 0.0];
+        } elseif ($request->input('type') === 'subreddit_members') {
+            $goalValidation = ['goal' => ['nullable', 'numeric', 'min:1', 'max:10000000']];
+            $additionalData = ['new_members' => false];
+        } else {
+            $goalValidation = ['goal' => ['nullable', 'numeric']];
+            $additionalData = [];
         }
-
+    
+        // Combine base validations with goal-specific validations
+        $validated = $request->validate(array_merge($baseValidation, $goalValidation));
+    
+        // Merge additional data based on type
+        $validated = array_merge($validated, $additionalData);
+    
         return Achievement::create($validated);
     }
-
+    
     public function show($id)
     {
         return Achievement::findOrFail($id);
