@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import useAuthContext from "../hooks/useAuthContext";
 import Spinner from '../components/ui/Spinner';
+import toast from "react-hot-toast";
 
 function decodeHtml(html: string) {
   const txt = document.createElement("textarea");
@@ -58,7 +59,8 @@ export default function RedditSearch() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const searchResponse = await axios.get(`http://www.reddit.com/r/${searchTerm}/new.json?sort=new`);
+        const searchResponse = await axios.get(`http://www.reddit.com/r/${searchTerm}/new.json?sort=new`).catch((e) => { toast.error(e); });
+
         const postList = searchResponse.data.data.children.map((child: any) => ({
           title: child.data.title,
           upvote_ratio: child.data.upvote_ratio,
@@ -100,7 +102,7 @@ export default function RedditSearch() {
       const newInfluencerAuthors = new Set<string>();
       for (const post of posts) {
         try {
-          const userResponse = await axios.get(`https://www.reddit.com/user/${post.author}/about.json`);
+          const userResponse = await axios.get(`https://www.reddit.com/user/${post.author}/about.json`).catch((e) => { toast.error(e); });
           if (userResponse.data.data.total_karma > 50000) {
             newInfluencerAuthors.add(post.author);
           }
