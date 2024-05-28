@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Achievement;
+use Illuminate\Support\Facades\Auth;
 
 class AchievementController extends Controller
 {
@@ -38,25 +39,17 @@ class AchievementController extends Controller
         return Achievement::findOrFail($id);
     }
 
-    public function update(Request $request, $id)
+    public function achiByUser($userId)
     {
-        $achievement = Achievement::findOrFail($id);
+        $user = Auth::user('sanctum');
 
-        $validated = $request->validate([
-            'type' => ['required', 'string', 'in:google_reviews,subreddit_members'],
-            'goal' => ['nullable', 'numeric', 'min:1.0', 'max:5.0'],
-        ]);
+        // Get the logged-in user's ID
+        $userId = $user->id;
 
-        $achievement->update($validated);
+        // Retrieve achievements specific to the logged-in user
+        $achievements = Achievement::where('user_id', $userId)->get();
 
-        return $achievement;
-    }
-
-    public function destroy($id)
-    {
-        $achievement = Achievement::findOrFail($id);
-        $achievement->delete();
-
-        return response()->noContent();
+        // Return the achievements data
+        return response()->json($achievements);
     }
 }

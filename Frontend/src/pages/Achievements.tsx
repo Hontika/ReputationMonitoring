@@ -26,7 +26,7 @@ export default function Achievements() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/achievements/")
+      .get(`http://localhost:8000/api/achievements/user/${user.id}`)
       .then((response) => setAchievements(response.data))
       .catch((error) => console.error(error));
   });
