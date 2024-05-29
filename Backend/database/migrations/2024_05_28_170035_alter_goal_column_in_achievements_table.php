@@ -12,14 +12,16 @@ return new class extends Migration
     public function up()
     {
         Schema::table('achievements', function (Blueprint $table) {
-            $table->double('goal', 15, 8)->change();  // Adjust precision and scale according to your needs
+            $table->double('goal', 15, 8)->change();
+            $table->double('progress', 15, 8)->change();  // Adjust precision and scale according to your needs
         });
     }
-    
+
     public function down()
     {
         Schema::table('achievements', function (Blueprint $table) {
-            $table->float('goal', 3, 1)->change();  // Revert back to the original settings
+            $table->float('goal', 3, 1)->change();
+            $table->float('progress', 3, 1)->change();  // Revert back to the original settings
         });
     }
 };

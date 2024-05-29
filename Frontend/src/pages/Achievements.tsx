@@ -3,7 +3,7 @@ import useAuthContext from "../hooks/useAuthContext";
 import Spinner from "../components/ui/Spinner";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface Achievement {
   id?: number;
@@ -19,67 +19,85 @@ export default function Achievements() {
     useAuthContext();
   const [achievements, setAchievements] = useState<any[]>([]);
   const [newAchievement, setNewAchievement] = useState<Achievement>({
-    user_id: user.id,
+    user_id: user?.id,
     type: "",
+    new_members: false,
+    progress: 0,
   });
+
   const [goalError, setGoalError] = useState<string | null>(null);
   const [redditGoalError, setRedditGoalError] = useState<string | null>(null);
 
+  const fetchAchievements = () => {
+    axios
+      .get(`http://localhost:8000/api/achievements/user/${user.id}`, {
+        withCredentials: true,
+      })
+      .then((response) => setAchievements(response.data))
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to load achievements.");
+      });
+  };
+
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/achievements/user/${user.id}`)
+      .get(`http://localhost:8000/api/achievements/user/${user.id}`, {
+        withCredentials: true,
+      })
       .then((response) => setAchievements(response.data))
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to load achievements.");
+      });
   }, [user.id]);
 
+  // Abstracted validation logic
+  const validateGoal = useCallback(
+    (value: string) => {
+      const goalValue =
+        newAchievement.type === "subreddit_members"
+          ? parseInt(value, 10)
+          : parseFloat(value);
+      if (
+        (newAchievement.type === "subreddit_members" &&
+          (goalValue < 1 || goalValue > 10000000)) ||
+        (newAchievement.type === "google_reviews" &&
+          (goalValue < 1.0 || goalValue > 5.0))
+      ) {
+        setGoalError(`Goal must be appropriate for the selected type`);
+        return false;
+      }
+      setGoalError(null);
+      return true;
+    },
+    [newAchievement.type]
+  );
+
+  // Update handleInputChange to use validateGoal
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setNewAchievement({ ...newAchievement, [name]: value });
-
     if (name === "goal") {
-      if (newAchievement.type === "google_reviews") {
-        const goalValue = parseFloat(value);
-        if (goalValue < 1.0 || goalValue > 5.0) {
-          setGoalError("Goal must be between 1.0 and 5.0");
-        } else {
-          setGoalError(null);
-        }
-      }
-      if (newAchievement.type === "subreddit_members") {
-        const goalValue = parseInt(value, 10);
-        if (goalValue < 1 || goalValue > 10000000) {
-          setRedditGoalError("Goal must be between 1 and 10,000,000");
-        } else {
-          setRedditGoalError(null);
-        }
-      }
+      if (!validateGoal(value)) return; // Exit if validation fails
     }
+    setNewAchievement((prev) => ({ ...prev, [name]: value }));
   };
 
+  // handleSubmit checks using the abstracted validation function
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      newAchievement.type === "google_reviews" &&
-      (newAchievement.goal! < 1.0 || newAchievement.goal! > 5.0)
-    ) {
-      setGoalError("Goal must be between 1.0 and 5.0");
-      return;
-    } else if (
-      newAchievement.type === "subreddit_members" &&
-      (newAchievement.goal! < 1 || newAchievement.goal! > 10000000)
-    ) {
-      setGoalError("Goal must be between 1 and 10,000,000");
-      return;
-    }
+    if (!validateGoal(newAchievement.goal?.toString() || "")) return;
 
     try {
       await addAchievement(newAchievement);
-      setAchievements([...achievements, newAchievement]);
-      setNewAchievement({ user_id: user?.id, type: "" });
+      await fetchAchievements();
+      toast.success("Achievement added!");
+      setNewAchievement({ user_id: user?.id, type: "", new_members: false }); // Reset the form
     } catch (error) {
       console.error(error);
+      toast.error("Failed to add achievement.");
     }
   };
 
